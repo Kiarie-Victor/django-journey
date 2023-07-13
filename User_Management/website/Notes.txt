@@ -1,0 +1,10 @@
+label: Specifies the label or text that is displayed alongside the field in the form.
+required: Determines whether the field is required or not. By default, it is set to True, but you can set it to False if the field is optional.
+widget: Specifies the type of widget used to render the field in the form. It affects the HTML input element rendered for the field.
+initial: Sets the initial value of the field.
+help_text: Provides additional text or instructions that are displayed alongside the field to guide the user.
+max_length: Specifies the maximum length of the field. It is applicable for fields like CharField or TextField.
+min_value and max_value: Specifies the minimum and maximum allowed values for numeric fields like IntegerField or DecimalField.
+choices: Specifies a list of choices for fields like ChoiceField or MultipleChoiceField.
+validators: Allows you to specify a list of validation functions or classes to validate the field's value.
+
