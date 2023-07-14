@@ -4,9 +4,9 @@ Login
 {% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" class="form-group">
         {%csrf_token%}
-            {{ form }}
+            {{ form.as_p }}
             <p>Dont have an account? Create one.<a href="/sign-up">Here</a></p>
             <button type="submit" class="btn btn-success">Login</button>
     </form>

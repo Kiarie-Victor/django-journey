@@ -7,7 +7,8 @@ from .models import Post
 
 @login_required(login_url="/login")
 def home(request):
-    return render(request, "main/home.html")
+    posts = Post.objects.all()
+    return render(request, "main/home.html", {'post':posts})
 
 def sign_up(request):
     if request.method == 'POST':
@@ -28,6 +29,7 @@ def create_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.save()
             return redirect('/home')
     else:
         form = PostForm()
