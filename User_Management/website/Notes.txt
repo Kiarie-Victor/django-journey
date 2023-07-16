@@ -8,3 +8,28 @@ min_value and max_value: Specifies the minimum and maximum allowed values for nu
 choices: Specifies a list of choices for fields like ChoiceField or MultipleChoiceField.
 validators: Allows you to specify a list of validation functions or classes to validate the field's value.
 
+Creating a group and and adding permissions to the users of that group
+
+from django.contrib.auth.models import Group, User, Permission
+>>> from django.contrib.contenttypes.models 
+import ContentType
+>>> mod, created = Group.objects.get_or_create(name= "mod")
+>>> mod
+<Group: mod>
+>>> created
+True
+>>> from main.models import Post
+>>> ct = ContentType.objects.get_for_model(m
+odel=Post)
+>>> ct
+<ContentType: main | post>
+>>> perms = Permission.objects.filter(conten
+t_type=ct)
+>>> perms
+<QuerySet [<Permission: main | post | Can add post>, <Permission: main | post | Can change post>, <Permission: main | post | Can delete post>, <Permission: main | post | Can view post>]>
+>>> mod.permissions.add(*perms)
+>>> user = User.objects.filter(username="dreytted")
+>>> mod.user_set.add(user.first())
+>>> exit
+Use exit() or Ctrl-D (i.e. EOF) to exit
+>>> exit()
