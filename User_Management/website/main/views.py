@@ -3,6 +3,7 @@ from .forms import RegisterForm, PostForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Post
+from django.contrib.auth.models import User, Group
 # Create your views here.
 
 
@@ -12,10 +13,24 @@ def home(request):
 
     if request.method == "POST":
         post_id = request.POST.get("post-id")
-        post = Post.objects.filter(id=post_id).first()
-        if post.author == request.user:
-            post.delete()
-
+        user_id = request.POST.get("user-id")
+        if post_id:
+            post = Post.objects.filter(id=post_id).first()
+            if post and (post.author == request.user or request.user.had_perm("main.delete_post")):
+                post.delete()
+        elif user_id:
+            user = User.objects.filter(id=user_id).first()
+            if user and request.user.is_staff:
+                try:
+                    group = Group.ojects.get(name='default')
+                    group.user_set.remove(user)
+                except:
+                    pass
+                try:
+                    group = Group.ojects.get(name='mod')
+                    group.user_set.remove(user)
+                except:
+                    pass
     return render(request, "main/home.html", {'posts': posts})
 
 
