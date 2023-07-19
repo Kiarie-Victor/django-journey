@@ -20,6 +20,7 @@
         <form method="post">
           {% csrf_token %}
           <button
+            type="submit"
             class="btn btn-warning"
             name="user-id"
             value="{{post.author.id}}"

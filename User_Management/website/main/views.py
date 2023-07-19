@@ -14,9 +14,10 @@ def home(request):
     if request.method == "POST":
         post_id = request.POST.get("post-id")
         user_id = request.POST.get("user-id")
+
         if post_id:
             post = Post.objects.filter(id=post_id).first()
-            if post and (post.author == request.user or request.user.had_perm("main.delete_post")):
+            if post and (post.author == request.user or request.user.has_perm("main.delete_post")):
                 post.delete()
         elif user_id:
             user = User.objects.filter(id=user_id).first()
