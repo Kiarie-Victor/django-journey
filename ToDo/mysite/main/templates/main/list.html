@@ -1,35 +1,46 @@
-{% extends "main/base.html" %}
+{%block title%} View List {% endblock %} {% block content %}
 
-{%block title%} View List {% endblock %}
+<h1>{{ls.name}}</h1>
+<form method="post" action="#">
+  {% csrf_token %} {% for item in ls.item_set.all %}
+  <div class="input-group mb-3">
+    <div class="input-group-">
+      <div class="input-group-text">
+        {% if item.complete == False %}
+        <input type="checkbox" value="clicked" name="c{{item.id}}" />
+        {% else %}
+        <input type="checkbox" value="clicked" name="c{{item.id}}" />
+      </div>
+      {% endif %}
+    </div>
+    <input type="text" value="{{item.text}}" class="form-control" name="" />
+  </div>
+  {% endfor%}
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button
+        type="submit"
+        ,
+        name="save"
+        ,
+        value="save"
+        class="btn btn-success"
+      >
+        Save
+      </button>
+    </div>
+    <input type="text" name="new" />
+  </div>
 
-{% block content %}
-
-	<h1>{{ls.name}}</h1>
-	<form method="post" action="#"> 
-		{% csrf_token %}
-
-		{% for item in ls.item_set.all %}
-		<div class="input-group mb-3">
-			<div class="input-group-">
-				<div class="input-group-text">
-			{% if item.complete == False %}
-				<input type="checkbox" value="clicked" name="c{{item.id}}" checked>
-			{% else %}
-				<input type="checkbox" value="clicked" name="c{{item.id}}" checked>
-				</div>
-			{% endif %}
-				
-			</div>
-		<input type="text" value="{{item.text}}" class="form-control" name="">
-		</div>
-		{% endfor%}
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<button type="submit", name="save", value="save" class="btn btn-success">Save</button>
-		</div>
-			<input type="text" name="new">
-	</div>
-
-	<button type="submit", name="newItem",class="btn btn-success", value="newItem">Add Item</button>
+  <button
+    type="submit"
+    ,
+    name="newItem"
+    ,class="btn btn-success"
+    ,
+    value="newItem"
+  >
+    Add Item
+  </button>
 </form>
 {%endblock%}
