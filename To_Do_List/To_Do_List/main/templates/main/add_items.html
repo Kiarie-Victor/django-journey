@@ -5,7 +5,8 @@
   crossorigin="anonymous"
 />
 {% block title %} {% endblock%} {% block content %}
-<form class="form-group">
-  {%csrf_token%} {{form.as_p}} {% endblock %}
-  <button class="btn btn-success">Save</button>
+<form class="form-group" method="post">
+  {%csrf_token%} {{form.as_p}}
+  <button type="submit" class="btn btn-success">Save</button>
 </form>
+{% endblock %}
