@@ -1,3 +1,17 @@
-{% block title%} {%endblock%} {% block content %}
-<h1>WELCOME</h1>
+{% extends 'main/base.html' %}
+{% block title%} 
+{%endblock%} 
+
+{% block content %}
+<h1>Welcome @{{user}}</h1>
+<p>Here are You ToDolist's
+    {%for todolist in todolists%}
+        <h2>{{ todolist.name }}</h2>
+            {%for item in todolist.items_set.all%}
+            <ul style="cirle">
+                <li><input type="checkbox">{{item.text}}</li>
+            </ul>
+            {% endfor %}
+        
+    {%endfor%}
 {% endblock%}

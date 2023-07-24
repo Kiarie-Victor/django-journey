@@ -13,9 +13,8 @@ def home(request):
 
     if request.method == 'POST':
         form = ToDoListForm(request.POST)
-        tdlist = form.save(commit=False)
-        tdlist.owner = request.user
-        tdlist.save()
+        if form.is_valid():
+            form.save()
         return redirect('/add-items')
     else:
         form = ToDoListForm()
@@ -34,7 +33,7 @@ def sign_up(request):
 
     return render(request, 'registration/sign_up.html', {'form': form})
 
-
+@login_required(login_url='/login')
 def add_items(request):
     todolist = ToDoList.objects.all()
     if request.method == 'POST':
@@ -42,7 +41,7 @@ def add_items(request):
         if form.is_valid():
             items = form.save(commit=False)
             # Get the ToDoList instance associated with the user
-            items.author = get_object_or_404(ToDoList, owner=request.user)
+            items.author = request.user
             # or
             # odolist = ToDoList.objects.get(owner=request.user)
             items.save()
@@ -54,5 +53,5 @@ def add_items(request):
 
 @login_required(login_url='login')
 def display(request):
-    todolist = ToDoList.objects.all()
-    return render(request, 'main/view.html', {'todolist': todolist})
+    todolists = ToDoList.objects.filter(owner=request.user)
+    return render(request, 'main/view.html', {'todolists': todolists})

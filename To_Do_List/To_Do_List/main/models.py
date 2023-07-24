@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 
 class ToDoList(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=500)
 
     def __str__(self):
