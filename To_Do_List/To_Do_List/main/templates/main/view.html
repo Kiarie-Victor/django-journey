@@ -3,15 +3,16 @@
 {%endblock%} 
 
 {% block content %}
-<h1>Welcome @{{user}}</h1>
-<p>Here are You ToDolist's
-    {%for todolist in todolists%}
-        <h2>{{ todolist.name }}</h2>
+<div class=' p-6'>
+<h2>Welcome to your To-Do-List</h2>
+<h3>Hi {{user.username}},</h3>
+<h3>This is your personal ToDoList</h3>
+        <h4>{{ todolist.name }}</h4>
             {%for item in todolist.items_set.all%}
             <ul style="cirle">
                 <li><input type="checkbox">{{item.text}}</li>
             </ul>
             {% endfor %}
-        
-    {%endfor%}
+<input type='button' name="add" value="add-item(s)" class='btn btn-success'>
+        </div>
 {% endblock%}

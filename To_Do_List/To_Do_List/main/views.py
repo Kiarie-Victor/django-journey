@@ -9,13 +9,19 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/login')
 def home(request):
-    todolist = ToDoList.objects.all()
-
+    todolist=None
+    try:
+        todolist = ToDoList.objects.get(owner=request.user)
+        return redirect('/view')
+    except:
+        pass
     if request.method == 'POST':
         form = ToDoListForm(request.POST)
         if form.is_valid():
-            form.save()
-        return redirect('/add-items')
+            tdlist = form.save(commit=False)
+            tdlist.owner = request.user
+            tdlist.save()
+            return redirect('/add-items')
     else:
         form = ToDoListForm()
     return render(request, 'main/add_items.html', {'form': form, 'todolist': todolist})
@@ -33,7 +39,7 @@ def sign_up(request):
 
     return render(request, 'registration/sign_up.html', {'form': form})
 
-@login_required(login_url='/login')
+
 def add_items(request):
     todolist = ToDoList.objects.all()
     if request.method == 'POST':
@@ -41,9 +47,7 @@ def add_items(request):
         if form.is_valid():
             items = form.save(commit=False)
             # Get the ToDoList instance associated with the user
-            items.author = request.user
-            # or
-            # odolist = ToDoList.objects.get(owner=request.user)
+            items.author = get_object_or_404(ToDoList, owner=request.user)
             items.save()
             return redirect('/view')
     else:
@@ -53,5 +57,5 @@ def add_items(request):
 
 @login_required(login_url='login')
 def display(request):
-    todolists = ToDoList.objects.filter(owner=request.user)
-    return render(request, 'main/view.html', {'todolists': todolists})
+    todolist = ToDoList.objects.get(owner=request.user)
+    return render(request, 'main/view.html', {'todolist': todolist})

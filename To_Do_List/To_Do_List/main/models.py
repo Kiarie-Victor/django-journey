@@ -1,15 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 
 class ToDoList(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE )
     name = models.CharField(max_length=500)
 
     def __str__(self):
         return self.name
-
 
 class Items(models.Model):
     author = models.ForeignKey(ToDoList, on_delete=models.CASCADE)
